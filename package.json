@@ -1,7 +1,7 @@
 {
-    "name": "campaignstarter",
+    "name": "process-events",
     "version": "1.0.0",
-    "description": "campaign starter",
+    "description": "process events",
     "main": "index.js",
     "license": "MIT",
     "scripts": {
