@@ -1,2 +1,8 @@
-# smtp_process
-Process Emails in millions per day
+#campaign starter
+
+serverless deploy --config serverless.yml --stage dev
+
+serverless package --config serverless.yml --stage dev
+
+serverless offline --config serverless.yml --httpPort=8000
+
