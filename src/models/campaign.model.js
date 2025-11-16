@@ -38,6 +38,10 @@ const CampaignSchema = new Schema({
     components: {
         type: String,
         default: ''
+    },
+    abusive: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true

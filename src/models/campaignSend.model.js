@@ -12,6 +12,12 @@ const CampaignSendSchema = new Schema({
         ref: 'User',
         required: true
     },
+    status: {
+        type: String,
+        required: true,
+        enum: ['Sent', 'InProgress', 'Scheduled'],
+        default: 'InProgress'
+    },
     options: {
         type: Number,
         required: true
@@ -50,7 +56,7 @@ const CampaignSendSchema = new Schema({
     }
 }, { timestamps: true });
 
-CampaignSendSchema.index({ userId: 1, createdAt: -1 });
+CampaignSendSchema.index({ userId: 1, createdAt: -1, status: 1 });
 
 const CampaignSend = mongoose.model('CampaignSend', CampaignSendSchema);
 module.exports = CampaignSend;

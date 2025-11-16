@@ -72,7 +72,29 @@ const userSchema = mongoose.Schema(
     instagram: {
       type: String,
       required: false,
-    }
+    },
+    emailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    blocked: {
+      type: Boolean,
+      default: false,
+    },
+    lastLogin: {
+      type: Date,
+    },
+    lastLoginIP: {
+      type: String,
+    },
+    signupIP: {
+      type: String,
+    },
+    userType: {
+      type: String,
+      enum: ['free', 'premium', 'enterprise'],
+      default: 'free',
+    },
   },
   {
     timestamps: true
