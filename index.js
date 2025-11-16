@@ -4,11 +4,19 @@ const {
     sendCampaignToGroups
 } = require("./src/services/sendcampaign.service");
 const CampaignSend = require("./src/models/campaignSend.model");
+const Campaign = require("./src/models/campaign.model");
 exports.handler = async (event, context) => {
     context.callbackWaitsForEmptyEventLoop = false;
     await connectToDatabase();
 
-    const sendCampaign = await CampaignSend.find({ status: 'InProgress', scheduleTime: { $lt: new Date() } }).limit(10);
+    const sendCampaign = await CampaignSend.find({
+        status: 'InProgress',
+        $or: [
+            { scheduleTime: { $lt: new Date() } },
+            { scheduleTime: null },
+            { scheduleTime: { $exists: false } }
+        ]
+    }).limit(10);
     if (sendCampaign.length === 0) {
         return {
             statusCode: 200
@@ -27,6 +35,10 @@ exports.handler = async (event, context) => {
         } else {
             await sendCampaignToGroups(campaign, userId, statsId, groups, fromName, subject);
         }
+
+        // Update statuses to Queued after successful processing
+        await CampaignSend.findByIdAndUpdate(campaignSend._id, { status: 'Queued' });
+        await Campaign.findByIdAndUpdate(campaignId, { status: 'Queued' });
     }
     return {
         statusCode: 200

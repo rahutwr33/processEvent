@@ -15,7 +15,7 @@ const CampaignSendSchema = new Schema({
     status: {
         type: String,
         required: true,
-        enum: ['Sent', 'InProgress', 'Scheduled'],
+        enum: ['Sent', 'InProgress', 'Scheduled', 'Queued'],
         default: 'InProgress'
     },
     options: {

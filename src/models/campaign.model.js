@@ -23,7 +23,7 @@ const CampaignSchema = new Schema({
     status: {
         type: String,
         required: true,
-        enum: ['Draft', 'Sent', 'InProgress', 'Scheduled'],
+        enum: ['Draft', 'Sent', 'InProgress', 'Scheduled', 'Queued'],
         default: 'Draft'
     },
     layout: {
