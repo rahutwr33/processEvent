@@ -27,7 +27,7 @@ class SQSService {
                 }
             });
 
-            this.queueUrl = `https://sqs.${config.aws.CUSTOM_AWS_REGION}.amazonaws.com/014498623548/${config.aws.SQS_QUEUE_NAME}`;
+            this.queueUrl = `https://sqs.${config.aws.CUSTOM_AWS_REGION}.amazonaws.com/${config.aws.AWS_ACCOUNT_ID}/${config.aws.SQS_QUEUE_NAME}`;
             if (!this.queueUrl) {
                 throw new Error('SQS_QUEUE_URL is not defined');
             }

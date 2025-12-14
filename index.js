@@ -6,7 +6,7 @@ const {
 const CampaignSend = require("./src/models/campaignSend.model");
 const Campaign = require("./src/models/campaign.model");
 exports.handler = async (event, context) => {
-    context.callbackWaitsForEmptyEventLoop = false;
+    // context.callbackWaitsForEmptyEventLoop = false;
     await connectToDatabase();
 
     const sendCampaign = await CampaignSend.find({
@@ -25,15 +25,15 @@ exports.handler = async (event, context) => {
     for (const campaignSend of sendCampaign) {
         // delay 1 second
         await new Promise(resolve => setTimeout(resolve, 1000));
-        const { options, campaignId, userId, statsId, groups, fromName, subject } = campaignSend;
+        const { options, campaignId, userId, statsId, groups, fromName, mailsubject } = campaignSend;
         const campaign = await Campaign.findById(campaignId).select('htmlcontent  _id');
-        if (options > 1 || !campaign || !userId || !statsId || !fromName || !subject) {
+        if (options > 1 || !campaign || !userId || !statsId || !fromName || !mailsubject) {
             return { statusCode: 400, body: JSON.stringify({ message: 'Missing options or payload' }) };
         }
         if (options === 1) {
-            await sendCampaignToAllContact(campaign, userId, statsId, fromName, subject);
+            await sendCampaignToAllContact(campaign, userId, statsId, fromName, mailsubject);
         } else {
-            await sendCampaignToGroups(campaign, userId, statsId, groups, fromName, subject);
+            await sendCampaignToGroups(campaign, userId, statsId, groups, fromName, mailsubject);
         }
 
         // Update statuses to Queued after successful processing

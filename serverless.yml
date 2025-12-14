@@ -1,17 +1,17 @@
 service: processEvents
 package:
   patterns:
-    - '!node_modules/**'
-    - '!.git/**'
-    - '!.env*'
-    - '!*.log'
-    - '!tests/**'
-    - 'index.js'
-    - 'package.json'
+    - "!node_modules/**"
+    - "!.git/**"
+    - "!.env*"
+    - "!*.log"
+    - "!tests/**"
+    - "index.js"
+    - "package.json"
 provider:
   name: aws
-  runtime: nodejs22.x  # change this to match your Lambda's runtime
-  region: ap-south-1   # update to your desired region
+  runtime: nodejs22.x # change this to match your Lambda's runtime
+  region: ap-south-1 # update to your desired region
   role: arn:aws:iam::014498623548:role/service-role/processSqsEvent
   environment:
     NODE_ENV: ${opt:stage, 'dev'}
@@ -35,15 +35,16 @@ provider:
     JWT_VERIFY_EMAIL_EXPIRATION_MINUTES: ${env:JWT_VERIFY_EMAIL_EXPIRATION_MINUTES, '10'}
     SQS_QUEUE_NAME: ${env:SQS_QUEUE_NAME}
     SQS_SMTP_QUEUE_NAME: ${env:SQS_SMTP_QUEUE_NAME}
+    AWS_ACCOUNT_ID: ${env:AWS_ACCOUNT_ID}
   layers:
     - arn:aws:lambda:${self:provider.region}:${aws:accountId}:layer:commonModules:21
     - arn:aws:lambda:${self:provider.region}:${aws:accountId}:layer:utilityModules:9
 
 functions:
   app:
-    handler: index.handler  # adjust this to match your entry point
-    timeout: 900            # optional
-    memorySize: 3008        # optional
+    handler: index.handler # adjust this to match your entry point
+    timeout: 900 # optional
+    memorySize: 3008 # optional
 
 plugins:
-  - serverless-offline     # optional, for local testing
+  - serverless-offline # optional, for local testing
